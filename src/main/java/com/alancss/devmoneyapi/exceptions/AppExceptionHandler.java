@@ -1,6 +1,7 @@
 package com.alancss.devmoneyapi.exceptions;
 
-import com.alancss.devmoneyapi.service.exceptions.PessoaInativaException;
+import com.alancss.devmoneyapi.service.exceptions.CategoriaInexistenteException;
+import com.alancss.devmoneyapi.service.exceptions.PessoaInexistenteOuInativaException;
 import com.alancss.devmoneyapi.service.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +38,8 @@ public class AppExceptionHandler {
 
     @ExceptionHandler({
             MethodArgumentTypeMismatchException.class,
-            PessoaInativaException.class
+            PessoaInexistenteOuInativaException.class,
+            CategoriaInexistenteException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public StandardError badRequest(RuntimeException e, HttpServletRequest request) {
