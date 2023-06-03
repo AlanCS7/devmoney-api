@@ -2,12 +2,12 @@ package com.alancss.devmoneyapi.controller;
 
 import com.alancss.devmoneyapi.model.Categoria;
 import com.alancss.devmoneyapi.service.CategoriaService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.alancss.devmoneyapi.utils.AppUtils.getUri;

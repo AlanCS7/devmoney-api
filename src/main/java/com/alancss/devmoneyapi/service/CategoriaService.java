@@ -19,8 +19,13 @@ public class CategoriaService {
     }
 
     public Categoria getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Categoria com ID %d não encontrada", id)));
+        Categoria categoria = repository.findOne(id);
+
+        if (categoria == null) {
+            throw new ResourceNotFoundException(String.format("Categoria com ID %d não encontrada", id));
+        }
+
+        return categoria;
     }
 
     public Categoria create(Categoria categoria) {

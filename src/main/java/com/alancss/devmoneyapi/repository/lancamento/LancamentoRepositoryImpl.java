@@ -2,18 +2,18 @@ package com.alancss.devmoneyapi.repository.lancamento;
 
 import com.alancss.devmoneyapi.model.Lancamento;
 import com.alancss.devmoneyapi.repository.filter.LancamentoFilter;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,21 +41,21 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (!StringUtils.isEmpty(lancamentoFilter.descricao())) {
+        if (!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {
             predicates.add(builder.like(
-                    builder.lower(root.get("descricao")), "%" + lancamentoFilter.descricao().toLowerCase() + "%"
+                    builder.lower(root.get("descricao")), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"
             ));
         }
 
-        if (lancamentoFilter.dataVencimentoDe() != null) {
+        if (lancamentoFilter.getDataVencimentoDe() != null) {
             predicates.add(
-                    builder.greaterThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.dataVencimentoDe())
+                    builder.greaterThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.getDataVencimentoDe())
             );
         }
 
-        if (lancamentoFilter.dataVencimentoAte() != null) {
+        if (lancamentoFilter.getDataVencimentoAte() != null) {
             predicates.add(
-                    builder.lessThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.dataVencimentoAte())
+                    builder.lessThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.getDataVencimentoAte())
             );
         }
 

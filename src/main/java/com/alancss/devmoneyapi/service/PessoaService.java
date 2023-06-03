@@ -20,8 +20,13 @@ public class PessoaService {
     }
 
     public Pessoa getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Pessoa com ID %d não encontrada", id)));
+
+        Pessoa pessoa = repository.findOne(id);
+
+        if (pessoa == null) {
+            throw new ResourceNotFoundException(String.format("Pessoa com ID %d não encontrada", id));
+        }
+        return pessoa;
     }
 
     public Pessoa create(Pessoa pessoa) {

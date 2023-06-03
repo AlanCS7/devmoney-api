@@ -1,6 +1,6 @@
 package com.alancss.devmoneyapi.model;
 
-import jakarta.persistence.Embeddable;
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class Endereco {
