@@ -1,4 +1,4 @@
-package com.alancss.devmoneyapi.utils;
+package com.alancss.devmoneyapi.util;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

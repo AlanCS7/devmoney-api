@@ -1,8 +1,8 @@
-package com.alancss.devmoneyapi.exceptions;
+package com.alancss.devmoneyapi.exception;
 
-import com.alancss.devmoneyapi.service.exceptions.CategoriaInexistenteException;
-import com.alancss.devmoneyapi.service.exceptions.PessoaInexistenteOuInativaException;
-import com.alancss.devmoneyapi.service.exceptions.ResourceNotFoundException;
+import com.alancss.devmoneyapi.service.exception.CategoriaInexistenteException;
+import com.alancss.devmoneyapi.service.exception.PessoaInexistenteOuInativaException;
+import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

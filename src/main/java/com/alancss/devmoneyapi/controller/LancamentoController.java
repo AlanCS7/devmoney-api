@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.alancss.devmoneyapi.utils.AppUtils.getUri;
+import static com.alancss.devmoneyapi.util.AppUtils.getUri;
 
 @RestController
 @RequestMapping("/lancamentos")

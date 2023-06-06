@@ -2,7 +2,7 @@ package com.alancss.devmoneyapi.service;
 
 import com.alancss.devmoneyapi.model.Categoria;
 import com.alancss.devmoneyapi.repository.CategoriaRepository;
-import com.alancss.devmoneyapi.service.exceptions.ResourceNotFoundException;
+import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

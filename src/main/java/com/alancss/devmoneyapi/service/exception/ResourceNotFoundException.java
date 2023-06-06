@@ -1,4 +1,4 @@
-package com.alancss.devmoneyapi.service.exceptions;
+package com.alancss.devmoneyapi.service.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 
