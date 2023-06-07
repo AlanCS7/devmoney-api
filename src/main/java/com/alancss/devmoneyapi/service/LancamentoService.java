@@ -7,6 +7,7 @@ import com.alancss.devmoneyapi.repository.CategoriaRepository;
 import com.alancss.devmoneyapi.repository.LancamentoRepository;
 import com.alancss.devmoneyapi.repository.PessoaRepository;
 import com.alancss.devmoneyapi.repository.filter.LancamentoFilter;
+import com.alancss.devmoneyapi.repository.projection.ResumoLancamento;
 import com.alancss.devmoneyapi.service.exception.PessoaInexistenteOuInativaException;
 import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ public class LancamentoService {
 
     public Page<Lancamento> getByParams(LancamentoFilter lancamentoFilter, Pageable pageable) {
         return repository.findByParams(lancamentoFilter, pageable);
+    }
+
+    public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+        return repository.resumir(lancamentoFilter, pageable);
     }
 
     public Lancamento getById(Long id) {
