@@ -1,5 +1,6 @@
 package com.alancss.devmoneyapi.exception;
 
+import com.alancss.devmoneyapi.service.exception.BusinessException;
 import com.alancss.devmoneyapi.service.exception.CategoriaInexistenteException;
 import com.alancss.devmoneyapi.service.exception.PessoaInexistenteOuInativaException;
 import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,7 +42,8 @@ public class AppExceptionHandler {
     @ExceptionHandler({
             MethodArgumentTypeMismatchException.class,
             PessoaInexistenteOuInativaException.class,
-            CategoriaInexistenteException.class
+            CategoriaInexistenteException.class,
+            BusinessException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public StandardError badRequest(RuntimeException e, HttpServletRequest request) {
@@ -57,6 +60,16 @@ public class AppExceptionHandler {
         return new StandardError(
                 Instant.now(),
                 "Bad Request",
+                Collections.singletonList(e.getMessage()),
+                request.getRequestURI());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public StandardError usernameNotFoundException(UsernameNotFoundException e, HttpServletRequest request) {
+        return new StandardError(
+                Instant.now(),
+                "Unauthorized",
                 Collections.singletonList(e.getMessage()),
                 request.getRequestURI());
     }

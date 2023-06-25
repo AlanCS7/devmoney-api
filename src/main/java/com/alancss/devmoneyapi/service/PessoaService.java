@@ -5,6 +5,8 @@ import com.alancss.devmoneyapi.repository.PessoaRepository;
 import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,7 @@ public class PessoaService {
         return pessoa;
     }
 
+
     public Pessoa create(Pessoa pessoa) {
         return repository.save(pessoa);
     }
@@ -48,5 +51,9 @@ public class PessoaService {
         Pessoa pessoaDB = getById(id);
         pessoaDB.setAtivo(ativo);
         repository.save(pessoaDB);
+    }
+
+    public Page<Pessoa> getByNome(String nome, Pageable pageable) {
+        return repository.findByNomeContaining(nome, pageable);
     }
 }

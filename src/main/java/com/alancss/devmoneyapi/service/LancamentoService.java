@@ -8,8 +8,10 @@ import com.alancss.devmoneyapi.repository.LancamentoRepository;
 import com.alancss.devmoneyapi.repository.PessoaRepository;
 import com.alancss.devmoneyapi.repository.filter.LancamentoFilter;
 import com.alancss.devmoneyapi.repository.projection.ResumoLancamento;
+import com.alancss.devmoneyapi.service.exception.BusinessException;
 import com.alancss.devmoneyapi.service.exception.PessoaInexistenteOuInativaException;
 import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +52,7 @@ public class LancamentoService {
         Pessoa pessoa = pessoaRepository.findOne(lancamento.getPessoa().getId());
 
         if (pessoa == null) {
-            throw new ResourceNotFoundException(String.format("Pessoa com ID %d não encontrada", lancamento.getPessoa().getId()));
+            throw new PessoaInexistenteOuInativaException(String.format("Pessoa com ID %d não encontrada", lancamento.getPessoa().getId()));
         }
 
         if (pessoa.isInativo()) {
@@ -60,17 +62,54 @@ public class LancamentoService {
         return repository.save(lancamento);
     }
 
+
+    public Lancamento update(Long id, Lancamento lancamento) {
+        Lancamento lancamentoDB = repository.findOne(id);
+
+        if (lancamento == null) {
+            throw new ResourceNotFoundException(String.format("Lançamento com ID %d não encontrada", id));
+        }
+
+        existsCategoria(lancamento);
+
+        if (!lancamento.getPessoa().equals(lancamentoDB.getPessoa())) {
+            validarPessoa(lancamento);
+        }
+
+        BeanUtils.copyProperties(lancamento, lancamentoDB, "id");
+
+        return repository.save(lancamentoDB);
+    }
+
+
     public void delete(Long id) {
         Lancamento lancamento = getById(id);
         repository.delete(lancamento);
     }
 
     private void existsCategoria(Lancamento lancamento) {
-        Categoria categoria = categoriaRepository.findOne(lancamento.getCategoria().getId());
-
-        if (categoria == null) {
-            throw new ResourceNotFoundException(String.format("Categoria com ID %d não encontrada", lancamento.getCategoria().getId()));
+        Categoria categoria = null;
+        if (lancamento.getCategoria().getId() != null) {
+            categoria = categoriaRepository.findOne(lancamento.getCategoria().getId());
         }
 
+        if (categoria == null) {
+            throw new BusinessException(String.format("Categoria com ID %d não encontrada", lancamento.getCategoria().getId()));
+        }
+    }
+
+    private void validarPessoa(Lancamento lancamento) {
+        Pessoa pessoa = null;
+        if (lancamento.getPessoa().getId() != null) {
+            pessoa = pessoaRepository.findOne(lancamento.getPessoa().getId());
+        }
+
+        if (pessoa == null) {
+            throw new PessoaInexistenteOuInativaException(String.format("Pessoa com ID %d não encontrada", lancamento.getPessoa().getId()));
+        }
+
+        if (pessoa.isInativo()) {
+            throw new PessoaInexistenteOuInativaException(String.format("Pessoa com ID %d está inativa", pessoa.getId()));
+        }
     }
 }

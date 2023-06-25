@@ -52,6 +52,12 @@ public class LancamentoController {
                 .body(lancamentoSalva);
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO')")
+    public ResponseEntity<Lancamento> update(@PathVariable Long id, @Valid @RequestBody Lancamento lancamento) {
+        return ResponseEntity.ok(service.update(id, lancamento));
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
