@@ -5,6 +5,11 @@ import com.alancss.devmoneyapi.service.exception.CategoriaInexistenteException;
 import com.alancss.devmoneyapi.service.exception.PessoaInexistenteOuInativaException;
 import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -85,51 +90,15 @@ public class AppExceptionHandler {
                 request.getRequestURI());
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
     private class StandardError {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
         private Instant instant;
         private String error;
         private List<String> messages;
         private String path;
-
-        public StandardError(Instant instant, String error, List<String> messages, String path) {
-            this.instant = instant;
-            this.error = error;
-            this.messages = messages;
-            this.path = path;
-        }
-
-        public Instant getInstant() {
-            return instant;
-        }
-
-        public void setInstant(Instant instant) {
-            this.instant = instant;
-        }
-
-        public String getError() {
-            return error;
-        }
-
-        public void setError(String error) {
-            this.error = error;
-        }
-
-        public List<String> getMessages() {
-            return messages;
-        }
-
-        public void setMessages(List<String> messages) {
-            this.messages = messages;
-        }
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
     }
 }
 

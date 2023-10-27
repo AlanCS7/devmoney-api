@@ -1,60 +1,39 @@
 package com.alancss.devmoneyapi.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "pessoa")
+@Data
+@EqualsAndHashCode(of = "id")
 public class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "{app.required.field}")
-    @Size(message = "{app.required.size}", min = 3, max = 50)
+    @NotNull(message = "O campo nome deve ser obrigatório")
+    @Size(message = "O campo nome deve ter o tamanho de 3 a 50 caracteres", min = 3, max = 20)
     private String nome;
 
     @Embedded
     private Endereco endereco;
 
-    @NotNull(message = "{app.required.field}")
+    @NotNull(message = "O campo ativo deve ser obrigatório")
     private Boolean ativo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
 
     @JsonIgnore
     @Transient
@@ -62,18 +41,4 @@ public class Pessoa {
         return !this.ativo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Pessoa pessoa = (Pessoa) o;
-
-        return id.equals(pessoa.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }

@@ -1,133 +1,62 @@
 package com.alancss.devmoneyapi.model;
 
-import com.alancss.devmoneyapi.model.enums.TipoLancamento;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.alancss.devmoneyapi.model.enums.TipoLancamento;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "lancamento")
+@Data
+@EqualsAndHashCode(of = "id")
 public class Lancamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "{app.required.field}")
+    @NotNull(message = "O campo descricao deve ser obrigatório")
     private String descricao;
 
-    @NotNull(message = "{app.required.field}")
+    @NotNull(message = "O campo data de vencimento deve ser obrigatório")
     @Column(name = "data_vencimento")
     private LocalDate dataVencimento;
 
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
-    @NotNull(message = "{app.required.field}")
+    @NotNull(message = "O campo valor deve ser obrigatório")
     private BigDecimal valor;
 
     private String observacao;
 
-    @NotNull(message = "{app.required.field}")
+    @NotNull(message = "O campo tipo deve ser obrigatório")
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipo;
 
-    @NotNull(message = "{app.required.field}")
+    @NotNull(message = "O campo categoria deve ser obrigatório")
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    @NotNull(message = "{app.required.field}")
+    @NotNull(message = "O campo pessoa deve ser obrigatório")
     @ManyToOne
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public LocalDate getDataVencimento() {
-        return dataVencimento;
-    }
-
-    public void setDataVencimento(LocalDate dataVencimento) {
-        this.dataVencimento = dataVencimento;
-    }
-
-    public LocalDate getDataPagamento() {
-        return dataPagamento;
-    }
-
-    public void setDataPagamento(LocalDate dataPagamento) {
-        this.dataPagamento = dataPagamento;
-    }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
-    public TipoLancamento getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoLancamento tipo) {
-        this.tipo = tipo;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Lancamento that = (Lancamento) o;
-
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }
