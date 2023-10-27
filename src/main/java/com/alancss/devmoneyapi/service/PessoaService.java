@@ -2,6 +2,7 @@ package com.alancss.devmoneyapi.service;
 
 import com.alancss.devmoneyapi.model.Pessoa;
 import com.alancss.devmoneyapi.repository.PessoaRepository;
+import com.alancss.devmoneyapi.service.exception.BusinessException;
 import com.alancss.devmoneyapi.service.exception.ResourceNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,12 @@ public class PessoaService {
 
     public void delete(Long id) {
         Pessoa pessoa = getById(id);
-        repository.delete(pessoa);
+
+        try {
+            repository.delete(pessoa);
+        } catch (Exception ex) {
+            throw new BusinessException(String.format("%s tem lançamentos vinculados", pessoa.getNome()));
+        }
     }
 
     public Pessoa update(Long id, Pessoa pessoa) {
